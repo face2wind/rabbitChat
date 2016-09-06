@@ -16,4 +16,5 @@ LoginWindow::~LoginWindow()
 
 void LoginWindow::on_login_btn_clicked()
 {
+    NetworkAgent::GetInstance().SendToServer("1", 1);
 }
