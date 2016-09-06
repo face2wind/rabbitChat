@@ -72,7 +72,7 @@ void NetworkManager::OnRecv()
     //IPAddr ip, Port port, Port local_port, char *data, int length
     QByteArray data = tcpSocket->readAll();
     int *my_int = (int*)data.data();
-    QDebug()<<*my_int<<"<<<<<<<<<<<<<";
+    qDebug()<<*my_int<<"<<<<<<<<<<<<<";
 }
 
 void NetworkManager::OnDisconnect(IPAddr ip, Port port, Port local_port)
