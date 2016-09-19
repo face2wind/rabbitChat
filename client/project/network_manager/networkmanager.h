@@ -3,6 +3,7 @@
 
 #include <string>
 #include <QtNetwork>
+#include <QObject>
 
 typedef quint16 Port;
 typedef QString IPAddr;
@@ -19,10 +20,12 @@ public:
     virtual void OnDisconnect(NetworkID net_id) = 0;
 };
 
-class NetworkManager : public QObject
+class NetworkManager : public QTcpSocket
 {
+    Q_OBJECT
+
 public:
-    NetworkManager();
+    explicit NetworkManager(QObject *parent = 0);
     ~NetworkManager();
 
     static NetworkManager & GetInstance();
@@ -36,7 +39,7 @@ public:
     void Send(NetworkID net_id, const char *data, int length);
     void Disconnect(NetworkID net_id);
 
-protected:
+private slots:
     void OnAccept(IPAddr remote_ip, Port remote_port, Port local_port);
     void OnConnect();
     void OnRecv();

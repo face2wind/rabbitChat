@@ -1,6 +1,6 @@
 #include "networkmanager.h"
 
-NetworkManager::NetworkManager()
+NetworkManager::NetworkManager(QObject *parent) : QTcpSocket(parent)
 {
 }
 
@@ -64,7 +64,7 @@ void NetworkManager::OnAccept(IPAddr remote_ip, Port remote_port, Port local_por
 void NetworkManager::OnConnect()
 {
     //IPAddr remote_ip, Port remote_port, Port local_port
-
+qDebug()<<"<<<< has connect <<<<<<<<<";
 }
 
 void NetworkManager::OnRecv()
