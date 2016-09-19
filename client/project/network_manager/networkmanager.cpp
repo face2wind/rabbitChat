@@ -1,4 +1,5 @@
 #include "networkmanager.h"
+#include <string.h>
 
 NetworkManager::NetworkManager(QObject *parent) : QTcpSocket(parent)
 {
@@ -38,13 +39,19 @@ void NetworkManager::SyncConnect(IPAddr ip, Port port)
 
     tcpSocket->abort();
     tcpSocket->connectToHost(ip, port);
+
+    tcpSocket->waitForConnected();
+    tcpSocket->waitForReadyRead();
 }
 
 void NetworkManager::Send(NetworkID net_id, const char *data, int length)
 {
+    int HEADER_LENGTH = 4;
     QByteArray bytearr;
+    bytearr.append((char*)&length, HEADER_LENGTH);
     bytearr.append(data, length);
-    tcpSocket->write(bytearr);
+    qDebug()<<"write : "<<tcpSocket->write(bytearr);
+    tcpSocket->flush();
 }
 
 void NetworkManager::Disconnect(NetworkID net_id)
@@ -72,7 +79,9 @@ void NetworkManager::OnRecv()
     //IPAddr ip, Port port, Port local_port, char *data, int length
     QByteArray data = tcpSocket->readAll();
     int *my_int = (int*)data.data();
-    qDebug()<<*my_int<<"<<<<<<<<<<<<<";
+    char *msg = data.data()+4;
+   qDebug()<<"receive : ["<<msg<<"] size("<<data.size()-4<<")";
+    //qDebug()<<*my_int<<"<<<<<<<<<<<<<";
 }
 
 void NetworkManager::OnDisconnect(IPAddr ip, Port port, Port local_port)
