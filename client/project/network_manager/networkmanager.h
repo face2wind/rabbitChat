@@ -9,6 +9,15 @@ typedef quint16 Port;
 typedef QString IPAddr;
 typedef int NetworkID;
 
+#pragma pack(push, 4)
+
+struct NetPackerFixHeadMsgHeader
+{
+  int package_length;
+};
+#pragma pack(pop)
+const static int NET_PACKER_FIXHEAD_HEADER_LENGTH = sizeof(NetPackerFixHeadMsgHeader);
+
 class INetworkHandler
 {
 public:
@@ -42,14 +51,20 @@ public:
 private slots:
     void OnAccept(IPAddr remote_ip, Port remote_port, Port local_port);
     void OnConnect();
+    void DoHeadBodyRecv();
     void OnRecv();
-    void OnDisconnect(IPAddr ip, Port port, Port local_port);
+    void OnDisconnect();
 
     void SendRaw(NetworkID net_id, const char *data, int length);
     void OnRecvPackage(NetworkID net_id, char *data, int length);
+    void displayError(QAbstractSocket::SocketError);  //显示错误
+    void ReadTimerHandle();
 
 private:
-    QTcpSocket *tcpSocket;
+
+    QByteArray receive_ba_;
+    QTimer read_timeer_;
+    int body_length_;
 };
 
 #endif // NETWORKMANAGER_H
