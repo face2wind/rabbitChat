@@ -22,3 +22,5 @@ HEADERS  += loginwindow.h \
     network_manager/networkagent.h
 
 FORMS    += loginwindow.ui
+
+QMAKE_CXXFLAGS += -std=c++11
