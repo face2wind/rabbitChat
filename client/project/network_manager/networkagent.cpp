@@ -13,5 +13,5 @@ NetworkAgent & NetworkAgent::GetInstance()
 
 void NetworkAgent::SendToServer(const char *data, int length)
 {
-    this->Send(server_net_id_, data, length);
+    this->Send(data, length);
 }

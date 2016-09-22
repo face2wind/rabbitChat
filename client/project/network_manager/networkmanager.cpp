@@ -3,10 +3,6 @@
 
 NetworkManager::NetworkManager(QObject *parent) : QTcpSocket(parent), body_length_(0)
 {
-    read_timeer_.setInterval(5000);
-    QObject::connect(this, SIGNAL(disconnected()), &read_timeer_, SLOT(stop()));
-    QObject::connect(&read_timeer_, SIGNAL(timeout()), this, SLOT(ReadTimerHandle()));
-
     connect(this, SIGNAL(connected()), this, SLOT(OnConnect()));
     connect(this, SIGNAL(readyRead()), this, SLOT(OnRecv()));
     connect(this, SIGNAL(disconnected()), this, SLOT(OnDisconnect()));
@@ -30,30 +26,21 @@ NetworkManager & NetworkManager::GetInstance()
 
 void NetworkManager::RegistHandler(INetworkHandler *handler)
 {
-
+    handler_set_.insert(handler);
 }
 
 void NetworkManager::UnregistHandler(INetworkHandler *handler)
 {
-
-}
-
-void NetworkManager::SyncListen(Port port)
-{
-
+    handler_set_.erase(handler);
 }
 
 void NetworkManager::SyncConnect(IPAddr ip, Port port)
 {
     this->abort();
-
     this->connectToHost(ip, port);
-
-    this->waitForConnected();
-    this->waitForReadyRead();
 }
 
-void NetworkManager::Send(NetworkID net_id, const char *data, int length)
+void NetworkManager::Send(const char *data, int length)
 {
     int HEADER_LENGTH = 4;
     QByteArray bytearr;
@@ -63,21 +50,28 @@ void NetworkManager::Send(NetworkID net_id, const char *data, int length)
     this->flush();
 }
 
-void NetworkManager::Disconnect(NetworkID net_id)
+void NetworkManager::Disconnect()
 {
+    for (INetworkHandler *handler : handler_set_)
+    {
+        handler->OnDisconnect();
+    }
+
+    this->abort();
+    this->close();
 }
 
 // protected:
-void NetworkManager::OnAccept(IPAddr remote_ip, Port remote_port, Port local_port)
-{
-
-}
 
 void NetworkManager::OnConnect()
 {
     //IPAddr remote_ip, Port remote_port, Port local_port
     qDebug()<<"<<<< has connect <<<<<<<<<";
-    //read_timeer_.start();
+
+    for (INetworkHandler *handler : handler_set_)
+    {
+        handler->OnConnect(this->peerAddress(), this->peerPort(), this->localPort(), true);
+    }
 }
 
 void NetworkManager::DoHeadBodyRecv()
@@ -102,7 +96,7 @@ void NetworkManager::DoHeadBodyRecv()
     {
         if (receive_ba_.size() >= body_length_)
         {
-            this->OnRecvPackage(0, receive_ba_.data(), body_length_);
+            this->OnRecvPackage(receive_ba_.data(), body_length_);
 
             QByteArray left_data;
             left_data.append(receive_ba_.data() + body_length_, receive_ba_.size() - body_length_);
@@ -118,33 +112,24 @@ void NetworkManager::OnRecv()
 {
     //IPAddr ip, Port port, Port local_port, char *data, int length
     this->DoHeadBodyRecv();
-    //read_timeer_.start();
 }
 
 void NetworkManager::OnDisconnect()
 {
     this->abort();
     this->close();
-    read_timeer_.stop();
 }
 
-void NetworkManager::SendRaw(NetworkID net_id, const char *data, int length)
+void NetworkManager::OnRecvPackage(char *data, int length)
 {
-
-}
-
-void NetworkManager::OnRecvPackage(NetworkID net_id, char *data, int length)
-{
-    qDebug()<<"receive from net("<<net_id<<"): ["<<data<<"] size("<<length<<")";
-    this->waitForReadyRead();
+    for (INetworkHandler *handler : handler_set_)
+    {
+        handler->OnRecv(data, length);
+    }
+    qDebug()<<"receive : ["<<data<<"] size("<<length<<")";
 }
 
 void NetworkManager::displayError(QAbstractSocket::SocketError)
 {
     qDebug() << this->errorString(); //输出错误信息
-}
-
-void NetworkManager::ReadTimerHandle()
-{
-    this->waitForReadyRead();
 }
