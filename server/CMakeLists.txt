@@ -10,6 +10,7 @@ file(GLOB_RECURSE SOURCE_FILES src/*.cpp src/*.cc)
 
 include_directories(
   src
+  "../common/"
   ${ELEGANCE_SRC_PATH}
   )
 LINK_DIRECTORIES(${ELEGANCE_LIB_PATH})

@@ -1,4 +1,5 @@
 #include "network_agent.hpp"
+
 #include <iostream>
 
 using namespace face2wind;
@@ -27,17 +28,17 @@ void NetworkAgent::OnListenFail(Port port)
 void NetworkAgent::OnAccept(IPAddr ip, Port port, Port local_port, NetworkID net_id)
 {
   std::cout<<"some one connect : " <<ip<<":"<<port<<", netid("<<net_id<<")"<<std::endl;
+
+  net_mgr_.Send(net_id, "do you hear me?", 16);
+  Timer::Sleep(1000);
   net_mgr_.Send(net_id, "hi i am server", 15);
+  Timer::Sleep(4000);
+  net_mgr_.Send(net_id, "hi i am server LiuGuobiao!", 27);
 }
-
-void NetworkAgent::OnConnect(IPAddr ip, Port port, Port local_port, bool success, NetworkID net_id)
-{
-}
-
 
 void NetworkAgent::OnRecv(NetworkID net_id, const char *data, int length)
 {
-  std::cout<<"receive some one : netid("<<net_id<<") data ["<<data<<"]"<<std::endl;
+  msg_handler_.OnRecv(net_id, data, length);
 }
 
 void NetworkAgent::OnDisconnect(NetworkID net_id)
