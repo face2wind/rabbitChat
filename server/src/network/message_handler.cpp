@@ -28,6 +28,8 @@ void MessageHandler::OnLoginRequest(face2wind::NetworkID net_id, const char *dat
 {
   CSLogin *login_req = (CSLogin*)data;
   std::cout<<"receive login req : name("<<login_req->name<<") password ("<<login_req->passwd<<")"<<std::endl;
-  PlayerManager::GetInstance().GetPlayerWithAccountName(net_id, login_req->name, login_req->passwd);
+  Player *p = PlayerManager::GetInstance().GetPlayerWithAccountName(login_req->name);
+  if (nullptr != p)
+    p = nullptr;
 }
 

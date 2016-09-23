@@ -8,10 +8,12 @@
 class NetworkAgent : public face2wind::INetworkHandler
 {
 public:
-  NetworkAgent();
+  static NetworkAgent & GetInstance();
+  
   ~NetworkAgent();
   
   void Listening();
+  void Send(face2wind::NetworkID net_id, const char *data, int length);
 
   virtual void OnListenFail(face2wind::Port port);
   virtual void OnAccept(face2wind::IPAddr ip, face2wind::Port port, face2wind::Port local_port, face2wind::NetworkID net_id);
@@ -19,6 +21,9 @@ public:
 
   virtual void OnRecv(face2wind::NetworkID net_id, const char *data, int length);
   virtual void OnDisconnect(face2wind::NetworkID net_id);
+  
+protected:
+  NetworkAgent();
   
 private:
   face2wind::NetworkManager net_mgr_;

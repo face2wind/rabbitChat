@@ -14,10 +14,21 @@ NetworkAgent::~NetworkAgent()
 
 }
 
+NetworkAgent & NetworkAgent::GetInstance()
+{
+  static NetworkAgent instance;
+  return instance;
+}
+
 void NetworkAgent::Listening()
 {
   net_mgr_.SyncListen(52013);
   net_mgr_.WaitAllThread();
+}
+
+void NetworkAgent::Send(NetworkID net_id, const char *data, int length)
+{
+  net_mgr_.Send(net_id, data, length);
 }
 
 void NetworkAgent::OnListenFail(Port port)

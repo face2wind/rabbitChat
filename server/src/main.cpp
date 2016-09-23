@@ -8,6 +8,5 @@ using namespace std;
 int main()
 {
   //face2wind::DebugMessage::GetInstance().SetOnshowType(face2wind::DebugMessageType::BASE_NETWORK, true);
-  NetworkAgent agent;
-  agent.Listening();
+  NetworkAgent::GetInstance().Listening();
 }
