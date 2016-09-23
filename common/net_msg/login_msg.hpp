@@ -25,6 +25,13 @@ struct CSLogin
   Password passwd;
 };
 
+enum class MsgLoginResult
+{
+  LOGIN_SUCC,
+  NO_THIS_ACCOUNT,
+  PASSWD_WRONG,
+};
+
 struct SCLoginResult
 {
   SCLoginResult() : head(10002) {}

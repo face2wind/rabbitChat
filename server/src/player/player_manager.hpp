@@ -2,6 +2,9 @@
 
 #include "base_type.hpp"
 #include <network/network_manager.hpp>
+#include <string>
+
+class Player;
 
 class PlayerManager
 {
@@ -10,6 +13,7 @@ class PlayerManager
 
   ~PlayerManager();
 
+  Player * GetPlayerWithAccountName(const std::string &acc_name);
   void OnRegisterPlayer(PlayerName name, Password passwd);
   void OnPlayerLogin(face2wind::NetworkID net_id, PlayerName name, Password passwd);
   
