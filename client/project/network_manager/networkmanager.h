@@ -35,7 +35,7 @@ class NetworkManager : public QTcpSocket
 
 public:
     explicit NetworkManager(QObject *parent = 0);
-    ~NetworkManager();
+    virtual ~NetworkManager();
 
     static NetworkManager & GetInstance();
 
@@ -47,13 +47,13 @@ public:
     void Send(const char *data, int length);
     void Disconnect();
 
-private slots:
+protected slots:
     void OnConnect();
     void DoHeadBodyRecv();
     void OnRecv();
     void OnDisconnect();
 
-    void OnRecvPackage(char *data, int length);
+    virtual void OnRecvPackage(char *data, int length);
     void displayError(QAbstractSocket::SocketError);  //显示错误
 
 private:

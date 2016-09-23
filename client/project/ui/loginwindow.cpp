@@ -1,13 +1,12 @@
 #include "loginwindow.h"
 #include "ui_loginwindow.h"
-#include "network_manager/networkagent.h"
+#include "controller/login_controller.hpp"
 
 LoginWindow::LoginWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::LoginWindow)
 {
     ui->setupUi(this);
-    NetworkAgent::GetInstance();
 }
 
 LoginWindow::~LoginWindow()
@@ -17,5 +16,5 @@ LoginWindow::~LoginWindow()
 
 void LoginWindow::on_login_btn_clicked()
 {
-    NetworkAgent::GetInstance().SendToServer("Yea!", 5);
+    LoginController::GetInstance().LoginRequest(ui->account_input->text(), ui->password_input->text());
 }

@@ -126,7 +126,6 @@ void NetworkManager::OnRecvPackage(char *data, int length)
     {
         handler->OnRecv(data, length);
     }
-    qDebug()<<"receive : ["<<data<<"] size("<<length<<")";
 }
 
 void NetworkManager::displayError(QAbstractSocket::SocketError)
