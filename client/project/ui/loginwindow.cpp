@@ -24,3 +24,8 @@ void LoginWindow::on_register_btn_clicked()
 {
     UIManager::GetInstance().ShowRegister();
 }
+
+void LoginWindow::on_login_btn_clicked()
+{
+    LoginController::GetInstance().LoginRequest(ui->account_input->text(), ui->password_input->text());
+}

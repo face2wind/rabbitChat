@@ -1,5 +1,5 @@
-#include "RegisterWindow.h"
-#include "ui_RegisterWindow.h"
+#include "registerwindow.h"
+#include "ui_registerwindow.h"
 #include "controller/login_controller.hpp"
 
 RegisterWindow::RegisterWindow(QWidget *parent) :
