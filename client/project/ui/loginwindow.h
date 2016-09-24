@@ -16,7 +16,9 @@ public:
     ~LoginWindow();
 
 private slots:
-    void on_login_btn_clicked();
+    void on_lsign_txt_linkActivated(const QString &link);
+
+    void on_register_btn_clicked();
 
 private:
     Ui::LoginWindow *ui;

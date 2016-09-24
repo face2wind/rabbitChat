@@ -14,22 +14,28 @@ TEMPLATE = app
 INCLUDEPATH += ../../common
 
 SOURCES += main.cpp\
-    network_manager/networkmanager.cpp \
-    network_manager/networkagent.cpp \
     ui/loginwindow.cpp \
     ui/ui_manager.cpp \
-    network_manager/msg_handler.cpp \
     model/chat_manager.cpp \
-    controller/login_controller.cpp
+    controller/login_controller.cpp \
+    network/msg_handler.cpp \
+    network/networkagent.cpp \
+    network/networkmanager.cpp \
+    ui/registerwindow.cpp
 
 HEADERS  += ui/loginwindow.h \
-    network_manager/networkmanager.h \
-    network_manager/networkagent.h \
     ui/ui_manager.hpp \
-    network_manager/msg_handler.h \
     model/chat_manager.hpp \
-    controller/login_controller.hpp
+    controller/login_controller.hpp \
+    network/msg_handler.h \
+    network/networkagent.h \
+    network/networkmanager.h \
+    ui/registerwindow.h
 
-FORMS    += ui/loginwindow.ui
+FORMS    += ui/loginwindow.ui \
+    ui/registerwindow.ui
 
 QMAKE_CXXFLAGS += -std=c++11
+
+RESOURCES += \
+    res/login_bg.qrc

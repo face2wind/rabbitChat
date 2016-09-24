@@ -1,6 +1,6 @@
 #include "login_controller.hpp"
 
-#include "network_manager/networkagent.h"
+#include "network/networkagent.h"
 #include "net_msg/login_msg.hpp"
 
 LoginController::LoginController() : has_login_(false)

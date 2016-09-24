@@ -1,7 +1,7 @@
 #include <QApplication>
 
 #include "ui/ui_manager.hpp"
-#include "network_manager/networkagent.h"
+#include "network/networkagent.h"
 
 int main(int argc, char *argv[])
 {
