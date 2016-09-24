@@ -15,6 +15,7 @@ class MessageHandler
   void OnRecv(face2wind::NetworkID net_id, const char *data, int length);
 
  protected:
+  void OnRegisterRequest(face2wind::NetworkID net_id, const char *data, int length);
   void OnLoginRequest(face2wind::NetworkID net_id, const char *data, int length);
   
  private:

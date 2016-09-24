@@ -31,6 +31,11 @@ void NetworkAgent::Send(NetworkID net_id, const char *data, int length)
   net_mgr_.Send(net_id, data, length);
 }
 
+void NetworkAgent::Disconnect(face2wind::NetworkID net_id)
+{
+  net_mgr_.Disconnect(net_id);
+}
+
 void NetworkAgent::OnListenFail(Port port)
 {
   std::cout<<"OnListenFail !"<<std::endl;
@@ -39,12 +44,6 @@ void NetworkAgent::OnListenFail(Port port)
 void NetworkAgent::OnAccept(IPAddr ip, Port port, Port local_port, NetworkID net_id)
 {
   std::cout<<"some one connect : " <<ip<<":"<<port<<", netid("<<net_id<<")"<<std::endl;
-
-  net_mgr_.Send(net_id, "do you hear me?", 16);
-  Timer::Sleep(1000);
-  net_mgr_.Send(net_id, "hi i am server", 15);
-  Timer::Sleep(4000);
-  net_mgr_.Send(net_id, "hi i am server LiuGuobiao!", 27);
 }
 
 void NetworkAgent::OnRecv(NetworkID net_id, const char *data, int length)

@@ -27,6 +27,8 @@ struct CSLogin
 
 enum MsgLoginResult
 {
+  MsgLoginResult_REGISTER_SUCC,
+  MsgLoginResult_ALEADY_HAS_ACCOUNT,
   MsgLoginResult_LOGIN_SUCC,
   MsgLoginResult_NO_THIS_ACCOUNT,
   MsgLoginResult_PASSWD_WRONG,

@@ -14,6 +14,7 @@ public:
   
   void Listening();
   void Send(face2wind::NetworkID net_id, const char *data, int length);
+  void Disconnect(face2wind::NetworkID net_id);
 
   virtual void OnListenFail(face2wind::Port port);
   virtual void OnAccept(face2wind::IPAddr ip, face2wind::Port port, face2wind::Port local_port, face2wind::NetworkID net_id);
