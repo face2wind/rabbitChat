@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>LoginWindow</string>
+   <string>登录</string>
   </property>
   <widget class="QWidget" name="centralWidget">
    <widget class="QPushButton" name="login_btn">
@@ -158,7 +158,7 @@
      <x>0</x>
      <y>0</y>
      <width>409</width>
-     <height>23</height>
+     <height>19</height>
     </rect>
    </property>
   </widget>
