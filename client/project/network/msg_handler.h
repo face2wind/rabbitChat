@@ -4,7 +4,16 @@
 #include <map>
 
 class MessageHandler;
-typedef void (MessageHandler::*MessageHandlerFunc)(const char *data, int length);
+typedef void (MessageHandler::*MessageHandlerFunc)(const char *data);
+
+struct HandlerItem
+{
+    HandlerItem() : func(0), data_size(0) {}
+    HandlerItem(MessageHandlerFunc f, int s) : func(f), data_size(s) {}
+
+    MessageHandlerFunc func;
+    int data_size;
+};
 
 class MessageHandler
 {
@@ -15,10 +24,10 @@ public:
     void OnRecv(const char *data, int length);
 
 protected:
-    void OnLoginResult(const char *data, int length);
+    void OnLoginResult(const char *data);
 
 private:
-    std::map<int, MessageHandlerFunc> handler_func_map_;
+    std::map<int, HandlerItem> handler_func_map_;
 };
 
 #endif // NETWORKAGENT_H

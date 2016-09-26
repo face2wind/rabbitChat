@@ -15,9 +15,14 @@ LoginWindow::~LoginWindow()
     delete ui;
 }
 
-void LoginWindow::on_lsign_txt_linkActivated(const QString &link)
+void LoginWindow::OnNoThisAccount()
 {
-    UIManager::GetInstance().ShowRegister();
+    ui->error_msg_text->setText("帐号不存在，请重新登录");
+}
+
+void LoginWindow::OnPasswdWrong()
+{
+    ui->error_msg_text->setText("密码错误，请重新登录");
 }
 
 void LoginWindow::on_register_btn_clicked()

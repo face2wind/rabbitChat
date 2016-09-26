@@ -11,6 +11,7 @@ public:
     static LoginController & GetInstance();
 
     void LoginRequest(const QString &name, const QString &passwd);
+    void RegisterRequest(const QString &name, const QString &passwd);
 
 protected:
     LoginController();

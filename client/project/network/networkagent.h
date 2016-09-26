@@ -12,6 +12,7 @@ public:
 
     void SendToServer(const char *data, int length);
     virtual void OnRecvPackage(char *data, int length);
+    void OnDisconnect();
 
 private:
     IPAddr server_ip_;

@@ -33,3 +33,16 @@ void LoginController::LoginRequest(const QString &name, const QString &passwd)
 
     NetworkAgent::GetInstance().SendToServer((char*)&login, sizeof(login));
 }
+
+void LoginController::RegisterRequest(const QString &name, const QString &passwd)
+{
+    static protocol::CSRegisterAccount register_msg;
+
+    QByteArray name_by = name.toLatin1();
+    strncpy(register_msg.name, name_by.data(), sizeof(register_msg.name));
+
+    QByteArray pass_by = passwd.toLatin1();
+    strncpy(register_msg.passwd, pass_by.data(), sizeof(register_msg.passwd));
+
+    NetworkAgent::GetInstance().SendToServer((char*)&register_msg, sizeof(register_msg));
+}

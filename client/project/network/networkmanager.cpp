@@ -46,17 +46,12 @@ void NetworkManager::Send(const char *data, int length)
     QByteArray bytearr;
     bytearr.append((char*)&length, HEADER_LENGTH);
     bytearr.append(data, length);
-    qDebug()<<"write : "<<this->write(bytearr);
+    this->write(bytearr);
     this->flush();
 }
 
 void NetworkManager::Disconnect()
 {
-    for (INetworkHandler *handler : handler_set_)
-    {
-        handler->OnDisconnect();
-    }
-
     this->abort();
     this->close();
 }
@@ -116,6 +111,11 @@ void NetworkManager::OnRecv()
 
 void NetworkManager::OnDisconnect()
 {
+    for (INetworkHandler *handler : handler_set_)
+    {
+        handler->OnDisconnect();
+    }
+
     this->abort();
     this->close();
 }

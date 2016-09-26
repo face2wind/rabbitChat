@@ -15,9 +15,10 @@ public:
     explicit LoginWindow(QWidget *parent = 0);
     ~LoginWindow();
 
-private slots:
-    void on_lsign_txt_linkActivated(const QString &link);
+    void OnNoThisAccount();
+    void OnPasswdWrong();
 
+private slots:
     void on_register_btn_clicked();
 
     void on_login_btn_clicked();

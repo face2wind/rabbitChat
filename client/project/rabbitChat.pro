@@ -21,7 +21,8 @@ SOURCES += main.cpp\
     network/msg_handler.cpp \
     network/networkagent.cpp \
     network/networkmanager.cpp \
-    ui/registerwindow.cpp
+    ui/registerwindow.cpp \
+    ui/mainwindow.cpp
 
 HEADERS  += ui/loginwindow.h \
     ui/ui_manager.hpp \
@@ -30,10 +31,12 @@ HEADERS  += ui/loginwindow.h \
     network/msg_handler.h \
     network/networkagent.h \
     network/networkmanager.h \
-    ui/registerwindow.h
+    ui/registerwindow.h \
+    ui/mainwindow.h
 
 FORMS    += ui/loginwindow.ui \
-    ui/registerwindow.ui
+    ui/registerwindow.ui \
+    ui/mainwindow.ui
 
 QMAKE_CXXFLAGS += -std=c++11
 
