@@ -66,6 +66,7 @@ void PlayerManager::OnRegisterPlayer(face2wind::NetworkID net_id, PlayerName nam
     player->SetName(name);
     player->SetPassword(passwd);
     player_list_.push_back(player);
+    name_to_player_map_[name] = player;
     msg.result = protocol::MsgLoginResult_REGISTER_SUCC;
   }
   NetworkAgent::GetInstance().Send(net_id, (char*)&msg, sizeof(msg));
@@ -79,6 +80,12 @@ void PlayerManager::OnPlayerLogin(face2wind::NetworkID net_id, PlayerName name, 
   {
     if (p->CheckPassword(passwd))
     {
+      if (p->GetNetID() == net_id) // same connection cannot login 2 times
+        return;
+
+      if (p->GetNetID() > 0) // other client with same name connect , disconnect it
+        NetworkAgent::GetInstance().Disconnect(p->GetNetID());
+      
       msg.result = protocol::MsgLoginResult_LOGIN_SUCC;
       p->OnLogin();
       p->SetNetID(net_id);
@@ -96,3 +103,11 @@ void PlayerManager::OnPlayerLogin(face2wind::NetworkID net_id, PlayerName name, 
   NetworkAgent::GetInstance().Send(net_id, (char*)&msg, sizeof(msg));
 }
 
+void PlayerManager::OnClientDisconnect(face2wind::NetworkID net_id)
+{
+  auto player_it = net_id_to_player_map_.find(net_id);
+  if (player_it != net_id_to_player_map_.end())
+    player_it->second->SetNetID(0); // clear NetID
+  
+  net_id_to_player_map_[net_id] = nullptr;
+}

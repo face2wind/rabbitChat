@@ -1,4 +1,5 @@
 #include "network_agent.hpp"
+#include "player/player_manager.hpp"
 
 #include <iostream>
 
@@ -54,6 +55,7 @@ void NetworkAgent::OnRecv(NetworkID net_id, const char *data, int length)
 void NetworkAgent::OnDisconnect(NetworkID net_id)
 {
   std::cout<<"some one disconnect : netid("<<net_id<<")"<<std::endl;
+  PlayerManager::GetInstance().OnClientDisconnect(net_id);
 }
 
   

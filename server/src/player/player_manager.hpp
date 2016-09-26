@@ -21,6 +21,7 @@ class PlayerManager
 
   void OnRegisterPlayer(face2wind::NetworkID net_id, PlayerName name, Password passwd);
   void OnPlayerLogin(face2wind::NetworkID net_id, PlayerName name, Password passwd);
+  void OnClientDisconnect(face2wind::NetworkID net_id);
   
  protected:
   PlayerManager();
