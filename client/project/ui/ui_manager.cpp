@@ -85,6 +85,7 @@ void UIManager::OnLoginResult(int result)
 
     case MsgLoginResult_LOGIN_SUCC:
         this->ShowMainView();
+        "here request friend list ===="
         break;
 
     case MsgLoginResult_NO_THIS_ACCOUNT:
