@@ -2,6 +2,7 @@
 #include "ui_loginwindow.h"
 #include "controller/login_controller.hpp"
 #include "ui/ui_manager.hpp"
+#include "network/networkagent.h"
 
 LoginWindow::LoginWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -32,5 +33,12 @@ void LoginWindow::on_register_btn_clicked()
 
 void LoginWindow::on_login_btn_clicked()
 {
+    if (!NetworkAgent::GetInstance().HasConnected())
+    {
+        ui->error_msg_text->setText("未连上服务器，请稍后再试");
+        NetworkAgent::GetInstance().ConnectToServer();
+        return;
+    }
+
     LoginController::GetInstance().LoginRequest(ui->account_input->text(), ui->password_input->text());
 }

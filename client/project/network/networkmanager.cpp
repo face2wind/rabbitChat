@@ -131,4 +131,5 @@ void NetworkManager::OnRecvPackage(char *data, int length)
 void NetworkManager::displayError(QAbstractSocket::SocketError)
 {
     qDebug() << this->errorString(); //输出错误信息
+    this->OnDisconnect();
 }

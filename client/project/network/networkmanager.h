@@ -48,13 +48,13 @@ public:
     void Disconnect();
 
 protected slots:
-    void OnConnect();
+    virtual void OnConnect();
     void DoHeadBodyRecv();
     void OnRecv();
-    void OnDisconnect();
+    virtual void OnDisconnect();
 
     virtual void OnRecvPackage(char *data, int length);
-    void displayError(QAbstractSocket::SocketError);  //显示错误
+    virtual void displayError(QAbstractSocket::SocketError);  //显示错误
 
 private:
     std::set<INetworkHandler*> handler_set_;
