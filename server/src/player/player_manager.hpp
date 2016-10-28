@@ -1,6 +1,5 @@
 #pragma once
 
-#include "base_type.hpp"
 #include <network/network_manager.hpp>
 #include <string>
 #include <vector>
@@ -19,8 +18,8 @@ class PlayerManager
   Player * GetPlayer(face2wind::NetworkID net_id);
   Player * GetPlayerWithPlayerID(unsigned int player_id);
 
-  void OnRegisterPlayer(face2wind::NetworkID net_id, PlayerName name, Password passwd);
-  void OnPlayerLogin(face2wind::NetworkID net_id, PlayerName name, Password passwd);
+  void OnRegisterPlayer(face2wind::NetworkID net_id, std::string name, std::string passwd);
+  void OnPlayerLogin(face2wind::NetworkID net_id, std::string name, std::string passwd);
   void OnClientDisconnect(face2wind::NetworkID net_id);
   
  protected:

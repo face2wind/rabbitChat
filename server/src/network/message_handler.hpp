@@ -1,10 +1,11 @@
 #pragma once
 
-#include <network/network_manager.hpp>
+#include <memory/serialize/serialize_manager.hpp>
+#include <string>
 
 class MessageHandler;
 
-typedef void (MessageHandler::*MessageHandlerFunc)(face2wind::NetworkID net_id, const char *data, int length);
+typedef void (MessageHandler::*MessageHandlerFunc)(face2wind::NetworkID net_id, const face2wind::SerializeBase *data);
 
 class MessageHandler
 {
@@ -12,13 +13,13 @@ class MessageHandler
   MessageHandler();
   ~MessageHandler();
   
-  void OnRecv(face2wind::NetworkID net_id, const char *data, int length);
-
+  void OnRecv(face2wind::NetworkID net_id, const face2wind::SerializeBase *data);
+  
  protected:
-  void OnRegisterRequest(face2wind::NetworkID net_id, const char *data, int length);
-  void OnLoginRequest(face2wind::NetworkID net_id, const char *data, int length);
+  void OnRegisterRequest(face2wind::NetworkID net_id, const face2wind::SerializeBase *data);
+  void OnLoginRequest(face2wind::NetworkID net_id, const face2wind::SerializeBase *data);
   
  private:
-  std::map<int, MessageHandlerFunc> handler_func_map_;
+  std::map<std::string, MessageHandlerFunc> handler_func_map_;
   
 };

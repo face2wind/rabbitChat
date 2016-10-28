@@ -1,7 +1,10 @@
 #include "player_manager.hpp"
 #include "player.hpp"
-#include "net_msg/login_msg.hpp"
+#include "protocol_def.hpp"
+#include "message_code.hpp"
 #include "network/network_agent.hpp"
+
+using namespace Protocol;
 
 PlayerManager::PlayerManager()
 {
@@ -51,12 +54,12 @@ Player * PlayerManager::GetPlayerWithPlayerID(unsigned int player_id)
   return player_list_[player_id];
 }
 
-void PlayerManager::OnRegisterPlayer(face2wind::NetworkID net_id, PlayerName name, Password passwd)
+void PlayerManager::OnRegisterPlayer(face2wind::NetworkID net_id, std::string name, std::string passwd)
 {
-  static protocol::SCLoginResult msg;
+  static SCLoginResult msg;
   if (name_to_player_map_.find(name) != name_to_player_map_.end())
   {
-    msg.result = protocol::MsgLoginResult_ALEADY_HAS_ACCOUNT;
+    msg.result = MessageCode_ALEADY_HAS_ACCOUNT;
   }
   else
   {
@@ -67,14 +70,14 @@ void PlayerManager::OnRegisterPlayer(face2wind::NetworkID net_id, PlayerName nam
     player->SetPassword(passwd);
     player_list_.push_back(player);
     name_to_player_map_[name] = player;
-    msg.result = protocol::MsgLoginResult_REGISTER_SUCC;
+    msg.result = MessageCode_REGISTER_SUCC;
   }
-  NetworkAgent::GetInstance().Send(net_id, (char*)&msg, sizeof(msg));
+  NetworkAgent::GetInstance().SendSerialize(net_id, msg);
 }
 
-void PlayerManager::OnPlayerLogin(face2wind::NetworkID net_id, PlayerName name, Password passwd)
+void PlayerManager::OnPlayerLogin(face2wind::NetworkID net_id, std::string name, std::string passwd)
 {
-  static protocol::SCLoginResult msg;
+  static SCLoginResult msg;
   Player *p = this->GetPlayer(name);
   if (nullptr != p)
   {
@@ -86,21 +89,21 @@ void PlayerManager::OnPlayerLogin(face2wind::NetworkID net_id, PlayerName name, 
       if (p->GetNetID() > 0) // other client with same name connect , disconnect it
         NetworkAgent::GetInstance().Disconnect(p->GetNetID());
       
-      msg.result = protocol::MsgLoginResult_LOGIN_SUCC;
+      msg.result = MessageCode_LOGIN_SUCC;
       p->OnLogin();
       p->SetNetID(net_id);
       net_id_to_player_map_[net_id] = p;
     }
     else
     {
-      msg.result = protocol::MsgLoginResult_PASSWD_WRONG;
+      msg.result = MessageCode_PASSWD_WRONG;
     }
   }
   else
   {
-    msg.result = protocol::MsgLoginResult_NO_THIS_ACCOUNT;
+    msg.result = MessageCode_NO_THIS_ACCOUNT;
   }
-  NetworkAgent::GetInstance().Send(net_id, (char*)&msg, sizeof(msg));
+  NetworkAgent::GetInstance().SendSerialize(net_id, msg);
 }
 
 void PlayerManager::OnClientDisconnect(face2wind::NetworkID net_id)

@@ -1,13 +1,13 @@
 #include "message_handler.hpp"
-#include "net_msg/login_msg.hpp"
+#include "protocol_def.hpp"
 #include "player/player_manager.hpp"
 
-using namespace protocol;
+using namespace Protocol;
 
 MessageHandler::MessageHandler()
 {
-  handler_func_map_[10000] = &MessageHandler::OnRegisterRequest;
-  handler_func_map_[10001] = &MessageHandler::OnLoginRequest;
+  handler_func_map_["CSRegisterAccount"] = &MessageHandler::OnRegisterRequest;
+  handler_func_map_["CSLogin"] = &MessageHandler::OnLoginRequest;
 }
 
 MessageHandler::~MessageHandler()
@@ -15,30 +15,26 @@ MessageHandler::~MessageHandler()
 
 }
 
-void MessageHandler::OnRecv(face2wind::NetworkID net_id, const char *data, int length)
+void MessageHandler::OnRecv(face2wind::NetworkID net_id, const face2wind::SerializeBase *data)
 {
-  MsgHead *head = (MsgHead*)data;
-  auto func_it_ = handler_func_map_.find(head->msg_code);
+  const std::string msg_type = data->GetTypeName();
+  auto func_it_ = handler_func_map_.find(msg_type);
   if (func_it_ != handler_func_map_.end())
-    (this->*(func_it_->second))(net_id, data, length);
+    (this->*(func_it_->second))(net_id, data);
   else
-    std::cout<<"unknow msg code : "<<head->msg_code<<std::endl;
+    std::cout<<"unknow msg type : "<<msg_type<<std::endl;
 }
 
-void MessageHandler::OnRegisterRequest(face2wind::NetworkID net_id, const char *data, int length)
+void MessageHandler::OnRegisterRequest(face2wind::NetworkID net_id, const face2wind::SerializeBase *data)
 {
   CSRegisterAccount *reg_msg = (CSRegisterAccount*)data;
-  reg_msg->name[sizeof(reg_msg->name) - 1] = '\0';
-  reg_msg->passwd[sizeof(reg_msg->passwd) - 1] = '\0';
   std::cout<<"receive register req : name("<<reg_msg->name<<") password ("<<reg_msg->passwd<<")"<<std::endl;
   PlayerManager::GetInstance().OnRegisterPlayer(net_id, reg_msg->name, reg_msg->passwd);
 }
 
-void MessageHandler::OnLoginRequest(face2wind::NetworkID net_id, const char *data, int length)
+void MessageHandler::OnLoginRequest(face2wind::NetworkID net_id, const face2wind::SerializeBase *data)
 {
   CSLogin *login_req = (CSLogin*)data;
-  login_req->name[sizeof(login_req->name) - 1] = '\0';
-  login_req->passwd[sizeof(login_req->passwd) - 1] = '\0';
   std::cout<<"receive login req : name("<<login_req->name<<") password ("<<login_req->passwd<<")"<<std::endl;
   PlayerManager::GetInstance().OnPlayerLogin(net_id, login_req->name, login_req->passwd);
 }

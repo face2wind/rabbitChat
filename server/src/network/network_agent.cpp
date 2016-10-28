@@ -27,9 +27,9 @@ void NetworkAgent::Listening()
   net_mgr_.WaitAllThread();
 }
 
-void NetworkAgent::Send(NetworkID net_id, const char *data, int length)
+void NetworkAgent::SendSerialize(face2wind::NetworkID net_id, const face2wind::SerializeBase &data)
 {
-  net_mgr_.Send(net_id, data, length);
+  net_mgr_.SendSerialize(net_id, data);
 }
 
 void NetworkAgent::Disconnect(face2wind::NetworkID net_id)
@@ -47,9 +47,9 @@ void NetworkAgent::OnAccept(IPAddr ip, Port port, Port local_port, NetworkID net
   std::cout<<"some one connect : " <<ip<<":"<<port<<", netid("<<net_id<<")"<<std::endl;
 }
 
-void NetworkAgent::OnRecv(NetworkID net_id, const char *data, int length)
+void NetworkAgent::OnRecv(face2wind::NetworkID net_id, const face2wind::SerializeBase *data)
 {
-  msg_handler_.OnRecv(net_id, data, length);
+  msg_handler_.OnRecv(net_id, data);
 }
 
 void NetworkAgent::OnDisconnect(NetworkID net_id)
