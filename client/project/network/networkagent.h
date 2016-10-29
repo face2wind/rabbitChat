@@ -1,10 +1,10 @@
 #ifndef NETWORKAGENT_H
 #define NETWORKAGENT_H
 
-#include "networkmanager.h"
+#include "memory/serialize/serialize_manager.hpp"
 #include "msg_handler.h"
 
-class NetworkAgent : public NetworkManager
+class NetworkAgent : public face2wind::SerializeNetworkManager
 {
 public:
     NetworkAgent();

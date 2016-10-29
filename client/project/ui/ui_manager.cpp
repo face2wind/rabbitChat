@@ -6,10 +6,11 @@
 #include "loginwindow.h"
 #include "registerwindow.h"
 #include "mainwindow.h"
+#include "message_code.hpp"
 
-#include "net_msg/login_msg.hpp"
+#include "protocol_def.hpp"
 
-using namespace protocol;
+using namespace Protocol;
 
 UIManager::UIManager() : login_win_(nullptr), register_win_(nullptr), main_win_(nullptr)
 {
@@ -75,24 +76,24 @@ void UIManager::OnLoginResult(int result)
 {
     switch (result)
     {
-    case MsgLoginResult_REGISTER_SUCC:
+    case MessageCode_REGISTER_SUCC:
         register_win_->OnRegisterSucc();
         break;
 
-    case MsgLoginResult_ALEADY_HAS_ACCOUNT:
+    case MessageCode_ALEADY_HAS_ACCOUNT:
         register_win_->OnHasAccount();
         break;
 
-    case MsgLoginResult_LOGIN_SUCC:
+    case MessageCode_LOGIN_SUCC:
         this->ShowMainView();
-        "here request friend list ===="
+        //"here request friend list ===="
         break;
 
-    case MsgLoginResult_NO_THIS_ACCOUNT:
+    case MessageCode_NO_THIS_ACCOUNT:
         login_win_->OnNoThisAccount();
         break;
 
-    case MsgLoginResult_PASSWD_WRONG:
+    case MessageCode_PASSWD_WRONG:
         login_win_->OnPasswdWrong();
         break;
 

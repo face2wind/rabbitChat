@@ -2,9 +2,10 @@
 #define MSG_HANDLER_HPP
 
 #include <map>
+#include <memory/serialize/serialize_base.hpp>
 
 class MessageHandler;
-typedef void (MessageHandler::*MessageHandlerFunc)(const char *data);
+typedef void (MessageHandler::*MessageHandlerFunc)(const face2wind::SerializeBase *data);
 
 struct HandlerItem
 {
@@ -21,13 +22,13 @@ public:
     MessageHandler();
     ~MessageHandler();
 
-    void OnRecv(const char *data, int length);
+    void OnRecv(const face2wind::SerializeBase *data);
 
 protected:
-    void OnLoginResult(const char *data);
+    void OnLoginResult(const face2wind::SerializeBase *data);
 
 private:
-    std::map<int, HandlerItem> handler_func_map_;
+    std::map<std::string, MessageHandlerFunc> handler_func_map_;
 };
 
 #endif // NETWORKAGENT_H

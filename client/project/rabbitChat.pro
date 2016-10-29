@@ -22,7 +22,11 @@ SOURCES += main.cpp\
     network/networkagent.cpp \
     network/networkmanager.cpp \
     ui/registerwindow.cpp \
-    ui/mainwindow.cpp
+    ui/mainwindow.cpp \
+    memory/byte_array/queue_byte_array.cpp \
+    memory/serialize/serialize_base.cpp \
+    memory/serialize/serialize_manager.cpp \
+    ../../common/protocol_def.cpp
 
 HEADERS  += ui/loginwindow.h \
     ui/ui_manager.hpp \
@@ -32,7 +36,13 @@ HEADERS  += ui/loginwindow.h \
     network/networkagent.h \
     network/networkmanager.h \
     ui/registerwindow.h \
-    ui/mainwindow.h
+    ui/mainwindow.h \
+    memory/byte_array/byte_array.hpp \
+    memory/byte_array/queue_byte_array.hpp \
+    memory/serialize/serialize_base.hpp \
+    memory/serialize/serialize_manager.hpp \
+    ../../common/message_code.hpp \
+    ../../common/protocol_def.hpp
 
 FORMS    += ui/loginwindow.ui \
     ui/registerwindow.ui \
@@ -42,3 +52,6 @@ QMAKE_CXXFLAGS += -std=c++11
 
 RESOURCES += \
     res/login_bg.qrc
+
+DISTFILES += \
+    common/protocol_def.xml

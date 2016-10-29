@@ -1,32 +1,29 @@
 #include "msg_handler.h"
-#include "net_msg/login_msg.hpp"
+#include "protocol_def.hpp"
 #include "ui/ui_manager.hpp"
 #include <QtCore>
 
-using namespace protocol;
+using namespace Protocol;
 
 MessageHandler::MessageHandler()
 {
-    handler_func_map_[10002] = HandlerItem(&MessageHandler::OnLoginResult, sizeof(SCLoginResult));
+    handler_func_map_["10002"] = &MessageHandler::OnLoginResult;
 }
 
 MessageHandler::~MessageHandler()
 {
 }
 
-void MessageHandler::OnRecv(const char *data, int length)
+void MessageHandler::OnRecv(const face2wind::SerializeBase *data)
 {
-    MsgHead *head = (MsgHead*)data;
-    auto func_it_ = handler_func_map_.find(head->msg_code);
+    auto func_it_ = handler_func_map_.find(data->GetTypeName());
     if (func_it_ == handler_func_map_.end())
-        qDebug()<<"unknow msg code : "<<head->msg_code;
-    else if (length < func_it_->second.data_size)
-        qDebug()<<"msg("<<head->msg_code<<") size("<<length<<") < "<<func_it_->second.data_size;
+        qDebug()<<"unknow msg type : "<<data->GetTypeName().c_str();
     else
-        (this->*(func_it_->second.func))(data);
+        (this->*(func_it_->second))(data);
 }
 
-void MessageHandler::OnLoginResult(const char *data)
+void MessageHandler::OnLoginResult(const face2wind::SerializeBase *data)
 {
     SCLoginResult *msg = (SCLoginResult*)data;
     qDebug()<<"login result : "<<msg->result;
