@@ -7,7 +7,7 @@ using namespace face2wind;
 
 NetworkAgent::NetworkAgent()
 {
-  net_mgr_.RegistHandler(this);
+  net_mgr_.RegistSerializeHandler(this);
 }
 
 NetworkAgent::~NetworkAgent()

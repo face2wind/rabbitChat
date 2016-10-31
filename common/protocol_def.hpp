@@ -75,7 +75,7 @@ public:
 class __CSRegisterAccountDescribe__ : public SerializeDescribe
 {
 public:
-  __CSRegisterAccountDescribe__() { name_to_object_map_["CSRegisterAccount"] = this; }
+  __CSRegisterAccountDescribe__() { GetNameToObjectMap()["CSRegisterAccount"] = this; }
   virtual ~__CSRegisterAccountDescribe__() {}
 
 protected:
@@ -85,7 +85,7 @@ protected:
 class __CSLoginDescribe__ : public SerializeDescribe
 {
 public:
-  __CSLoginDescribe__() { name_to_object_map_["CSLogin"] = this; }
+  __CSLoginDescribe__() { GetNameToObjectMap()["CSLogin"] = this; }
   virtual ~__CSLoginDescribe__() {}
 
 protected:
@@ -95,7 +95,7 @@ protected:
 class __SCLoginResultDescribe__ : public SerializeDescribe
 {
 public:
-  __SCLoginResultDescribe__() { name_to_object_map_["SCLoginResult"] = this; }
+  __SCLoginResultDescribe__() { GetNameToObjectMap()["SCLoginResult"] = this; }
   virtual ~__SCLoginResultDescribe__() {}
 
 protected:
@@ -105,7 +105,7 @@ protected:
 class __CSRequestFriendListDescribe__ : public SerializeDescribe
 {
 public:
-  __CSRequestFriendListDescribe__() { name_to_object_map_["CSRequestFriendList"] = this; }
+  __CSRequestFriendListDescribe__() { GetNameToObjectMap()["CSRequestFriendList"] = this; }
   virtual ~__CSRequestFriendListDescribe__() {}
 
 protected:
@@ -115,7 +115,7 @@ protected:
 class __FriendItemDescribe__ : public SerializeDescribe
 {
 public:
-  __FriendItemDescribe__() { name_to_object_map_["FriendItem"] = this; }
+  __FriendItemDescribe__() { GetNameToObjectMap()["FriendItem"] = this; }
   virtual ~__FriendItemDescribe__() {}
 
 protected:
@@ -125,7 +125,7 @@ protected:
 class __SCFriendListDescribe__ : public SerializeDescribe
 {
 public:
-  __SCFriendListDescribe__() { name_to_object_map_["SCFriendList"] = this; }
+  __SCFriendListDescribe__() { GetNameToObjectMap()["SCFriendList"] = this; }
   virtual ~__SCFriendListDescribe__() {}
 
 protected:
