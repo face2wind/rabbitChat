@@ -18,9 +18,12 @@ class PlayerManager
   Player * GetPlayer(face2wind::NetworkID net_id);
   Player * GetPlayerWithPlayerID(unsigned int player_id);
 
+  void OnClientDisconnect(face2wind::NetworkID net_id);
+
   void OnRegisterPlayer(face2wind::NetworkID net_id, std::string name, std::string passwd);
   void OnPlayerLogin(face2wind::NetworkID net_id, std::string name, std::string passwd);
-  void OnClientDisconnect(face2wind::NetworkID net_id);
+  void OnRequestFriendList(face2wind::NetworkID net_id);
+  void OnRequestAllUserList(face2wind::NetworkID net_id);
   
  protected:
   PlayerManager();

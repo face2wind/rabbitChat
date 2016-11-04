@@ -1,6 +1,7 @@
 #pragma once
 
 #include <string>
+#include <vector>
 #include <network/network_manager.hpp>
 
 class Player
@@ -17,15 +18,18 @@ class Player
 
   face2wind::NetworkID GetNetID() { return net_id_; }
   void SetNetID(face2wind::NetworkID net_id) { net_id_ = net_id; }
-  
+
   void OnLogin();
   void OnLogout();
 
+  void OnRequestFriendList();
+  
  private:
   std::string player_name_;
   std::string password_;
   unsigned int player_id_;
   face2wind::NetworkID net_id_;
   bool is_online_;
-  
+
+  std::vector<unsigned int> friend_id_vec_;
 };

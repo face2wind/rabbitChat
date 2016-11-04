@@ -54,6 +54,15 @@ Player * PlayerManager::GetPlayerWithPlayerID(unsigned int player_id)
   return player_list_[player_id];
 }
 
+void PlayerManager::OnClientDisconnect(face2wind::NetworkID net_id)
+{
+  Player *player = GetPlayer(net_id);
+  if (nullptr != player)
+    player->SetNetID(0);
+  
+  net_id_to_player_map_[net_id] = nullptr;
+}
+
 void PlayerManager::OnRegisterPlayer(face2wind::NetworkID net_id, std::string name, std::string passwd)
 {
   static SCLoginResult msg;
@@ -106,11 +115,33 @@ void PlayerManager::OnPlayerLogin(face2wind::NetworkID net_id, std::string name,
   NetworkAgent::GetInstance().SendSerialize(net_id, msg);
 }
 
-void PlayerManager::OnClientDisconnect(face2wind::NetworkID net_id)
+void PlayerManager::OnRequestFriendList(face2wind::NetworkID net_id)
 {
-  auto player_it = net_id_to_player_map_.find(net_id);
-  if (player_it != net_id_to_player_map_.end())
-    player_it->second->SetNetID(0); // clear NetID
-  
-  net_id_to_player_map_[net_id] = nullptr;
+  Player *p = this->GetPlayer(net_id);
+  if (nullptr == p)
+    return;
+
+  p->OnRequestFriendList();
 }
+
+void PlayerManager::OnRequestAllUserList(face2wind::NetworkID net_id)
+{
+  Player *p = this->GetPlayer(net_id);
+  if (nullptr == p)
+    return;
+
+  static SCAllUserList msg;
+  msg.user_list.clear();
+  for (Player *tmp_player : player_list_)
+  {
+    if (tmp_player != p && tmp_player->GetNetID() != 0) // online and not current player
+    {
+      UserItem p_item;
+      p_item.id = tmp_player->GetID();
+      p_item.name = tmp_player->GetName();
+      msg.user_list.push_back(p_item);
+    }
+  }
+  NetworkAgent::GetInstance().SendSerialize(net_id, msg);
+}
+
