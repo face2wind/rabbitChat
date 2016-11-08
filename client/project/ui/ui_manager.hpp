@@ -1,10 +1,13 @@
 #ifndef UI_MANAGER_HPP
 #define UI_MANAGER_HPP
 
+#include <map>
+
 class QMainWindow;
 class LoginWindow;
 class RegisterWindow;
 class MainWindow;
+class ChatWindow;
 
 class UIManager
 {
@@ -16,6 +19,8 @@ public:
     void ShowRegister();
     void ShowMainView();
     void OnLoginResult(int result);
+    void ShowChatWindow(unsigned int user_id);
+    void RequestFriendList();
 
 protected:
     void MoveCenter(QMainWindow *window);
@@ -27,6 +32,7 @@ protected:
     LoginWindow *login_win_;
     RegisterWindow *register_win_;
     MainWindow *main_win_;
+    std::map<unsigned int, ChatWindow *> chat_window_map_;
 
     int desktop_width_;
     int desktop_height_;

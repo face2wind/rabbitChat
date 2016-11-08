@@ -26,7 +26,8 @@ SOURCES += main.cpp\
     memory/byte_array/queue_byte_array.cpp \
     memory/serialize/serialize_base.cpp \
     memory/serialize/serialize_manager.cpp \
-    ../../common/protocol_def.cpp
+    ../../common/protocol_def.cpp \
+    ui/chatwindow.cpp
 
 HEADERS  += ui/loginwindow.h \
     ui/ui_manager.hpp \
@@ -42,11 +43,13 @@ HEADERS  += ui/loginwindow.h \
     memory/serialize/serialize_base.hpp \
     memory/serialize/serialize_manager.hpp \
     ../../common/message_code.hpp \
-    ../../common/protocol_def.hpp
+    ../../common/protocol_def.hpp \
+    ui/chatwindow.h
 
 FORMS    += ui/loginwindow.ui \
     ui/registerwindow.ui \
-    ui/mainwindow.ui
+    ui/mainwindow.ui \
+    ui/chatwindow.ui
 
 QMAKE_CXXFLAGS += -std=c++11
 

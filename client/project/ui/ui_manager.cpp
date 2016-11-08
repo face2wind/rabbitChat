@@ -6,7 +6,10 @@
 #include "loginwindow.h"
 #include "registerwindow.h"
 #include "mainwindow.h"
+#include "chatwindow.h"
+
 #include "message_code.hpp"
+#include "network/networkagent.h"
 
 #include "protocol_def.hpp"
 
@@ -68,8 +71,13 @@ void UIManager::ShowMainView()
 
     if (nullptr == main_win_)
         main_win_ = new MainWindow();
-    this->MoveLeft(main_win_);
-    main_win_->show();
+
+    if (main_win_->isHidden())
+    {
+        this->MoveLeft(main_win_);
+        main_win_->show();
+    }
+    main_win_->FreshAllUserList();
 }
 
 void UIManager::OnLoginResult(int result)
@@ -86,7 +94,7 @@ void UIManager::OnLoginResult(int result)
 
     case MessageCode_LOGIN_SUCC:
         this->ShowMainView();
-        //"here request friend list ===="
+        this->RequestFriendList();
         break;
 
     case MessageCode_NO_THIS_ACCOUNT:
@@ -100,6 +108,29 @@ void UIManager::OnLoginResult(int result)
     default:
         break;
     }
+}
+
+void UIManager::ShowChatWindow(unsigned int user_id)
+{
+    auto chat_window_it = chat_window_map_.find(user_id);
+    if (chat_window_it != chat_window_map_.end())
+    {
+        chat_window_it->second->show();
+        chat_window_it->second->SetUserID(user_id);
+    }
+    else
+    {
+        ChatWindow *window = new ChatWindow();
+        window->show();
+        window->SetUserID(user_id);
+        chat_window_map_[user_id] = window;
+    }
+}
+
+void  UIManager::RequestFriendList()
+{
+    static Protocol::CSRequestAllUserList req;
+    NetworkAgent::GetInstance().SendToServer(req);
 }
 
 void UIManager::MoveCenter(QMainWindow *window)

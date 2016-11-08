@@ -3,7 +3,8 @@
 
 NetworkAgent::NetworkAgent() : server_ip_("192.168.11.35"), server_port_(52013), has_connected_(false)
 {
-    NetworkManager::SyncConnect(server_ip_, server_port_);
+    net_mgr_.RegistSerializeHandler(this);
+    net_mgr_.SyncConnect(server_ip_, server_port_);
 }
 
 NetworkAgent & NetworkAgent::GetInstance()
@@ -12,34 +13,29 @@ NetworkAgent & NetworkAgent::GetInstance()
     return instance;
 }
 
-void NetworkAgent::OnConnect()
+void NetworkAgent::OnConnect(IPAddr ip, Port port, Port local_port, bool success)
 {
-    NetworkManager::OnConnect();
     has_connected_ = true;
 }
 
-void NetworkAgent::SendToServer(const char *data, int length)
+void NetworkAgent::OnRecv(const face2wind::SerializeBase *data)
 {
-    this->Send(data, length);
-}
-
-void NetworkAgent::OnRecvPackage(char *data, int length)
-{
-    NetworkManager::OnRecvPackage(data, length);
-
-    //msg_handler_.OnRecv(data, length);
+    msg_handler_.OnRecv(data);
 }
 
 void NetworkAgent::OnDisconnect()
 {
-    NetworkManager::OnDisconnect();
-
     has_connected_ = false;
     UIManager::GetInstance().ShowLogin();
-    NetworkManager::SyncConnect(server_ip_, server_port_);
+   net_mgr_.SyncConnect(server_ip_, server_port_);
 }
 
 void NetworkAgent::ConnectToServer()
 {
-    NetworkManager::SyncConnect(server_ip_, server_port_);
+    net_mgr_.SyncConnect(server_ip_, server_port_);
+}
+
+void NetworkAgent::SendToServer(const face2wind::SerializeBase &data)
+{
+    net_mgr_.SendSerialize(data);
 }

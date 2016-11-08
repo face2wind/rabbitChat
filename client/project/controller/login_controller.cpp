@@ -33,7 +33,7 @@ void LoginController::LoginRequest(const QString &name, const QString &passwd)
     login.passwd = pass_by.toStdString();
     //strncpy(login.passwd, pass_by.data(), sizeof(login.passwd));
 
-    NetworkAgent::GetInstance().SendToServer((char*)&login, sizeof(login));
+    NetworkAgent::GetInstance().SendToServer(login);
 }
 
 void LoginController::RegisterRequest(const QString &name, const QString &passwd)
@@ -48,5 +48,5 @@ void LoginController::RegisterRequest(const QString &name, const QString &passwd
     register_msg.passwd = pass_by.toStdString();
     //strncpy(register_msg.passwd, pass_by.data(), sizeof(register_msg.passwd));
 
-    NetworkAgent::GetInstance().SendToServer((char*)&register_msg, sizeof(register_msg));
+    NetworkAgent::GetInstance().SendToServer(register_msg);
 }

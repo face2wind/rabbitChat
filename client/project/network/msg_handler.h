@@ -26,6 +26,8 @@ public:
 
 protected:
     void OnLoginResult(const face2wind::SerializeBase *data);
+    void OnFriendListReturn(const face2wind::SerializeBase *data);
+    void OnAllUserListReturn(const face2wind::SerializeBase *data);
 
 private:
     std::map<std::string, MessageHandlerFunc> handler_func_map_;

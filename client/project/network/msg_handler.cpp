@@ -1,13 +1,16 @@
 #include "msg_handler.h"
 #include "protocol_def.hpp"
 #include "ui/ui_manager.hpp"
+#include "model/chat_manager.hpp"
 #include <QtCore>
 
 using namespace Protocol;
 
 MessageHandler::MessageHandler()
 {
-    handler_func_map_["10002"] = &MessageHandler::OnLoginResult;
+    handler_func_map_["SCLoginResult"] = &MessageHandler::OnLoginResult;
+    handler_func_map_["SCFriendList"] = &MessageHandler::OnFriendListReturn;
+    handler_func_map_["SCAllUserList"] = &MessageHandler::OnAllUserListReturn;
 }
 
 MessageHandler::~MessageHandler()
@@ -28,4 +31,17 @@ void MessageHandler::OnLoginResult(const face2wind::SerializeBase *data)
     SCLoginResult *msg = (SCLoginResult*)data;
     qDebug()<<"login result : "<<msg->result;
     UIManager::GetInstance().OnLoginResult(msg->result);
+}
+
+void MessageHandler::OnFriendListReturn(const face2wind::SerializeBase *data)
+{
+    SCFriendList *msg = (SCFriendList*)data;
+    qDebug()<<"friend list size"<<msg->friend_list.size();
+}
+
+void MessageHandler::OnAllUserListReturn(const face2wind::SerializeBase *data)
+{
+    SCAllUserList *msg = (SCAllUserList*)data;
+    ChatManager::GetInstance().UpdateAllUserList(msg->user_list);
+    UIManager::GetInstance().ShowMainView();
 }
