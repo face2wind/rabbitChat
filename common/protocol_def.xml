@@ -44,5 +44,10 @@
     <attr name='user_id' type='uint32'/>
     <attr name='chat_message' type='string'/>
   </protocol>
+
+  <protocol name='SCChatToUser'>
+    <attr name='user_id' type='uint32'/>
+    <attr name='chat_message' type='string'/>
+  </protocol>
   
 </xml>

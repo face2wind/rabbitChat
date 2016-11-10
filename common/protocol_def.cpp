@@ -13,6 +13,7 @@ __SCAllUserListDescribe__ for_describe_register_to___scalluserlistdescribe__;
 __CSRequestMakeFriendDescribe__ for_describe_register_to___csrequestmakefrienddescribe__;
 __SCMakefriendRequestListDescribe__ for_describe_register_to___scmakefriendrequestlistdescribe__;
 __CSChatToUserDescribe__ for_describe_register_to___cschattouserdescribe__;
+__SCChatToUserDescribe__ for_describe_register_to___scchattouserdescribe__;
 
 
 void CSRegisterAccount::Serialize(ByteArray &collector) const
@@ -160,6 +161,18 @@ void CSChatToUser::Serialize(ByteArray &collector) const
 }
 
 void CSChatToUser::Unserialize(ByteArray &collector)
+{
+  user_id = collector.ReadUint32();
+  chat_message = collector.ReadString();
+}
+
+void SCChatToUser::Serialize(ByteArray &collector) const
+{
+  collector.WriteUint32(user_id);
+  collector.WriteString(chat_message);
+}
+
+void SCChatToUser::Unserialize(ByteArray &collector)
 {
   user_id = collector.ReadUint32();
   chat_message = collector.ReadString();

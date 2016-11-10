@@ -122,6 +122,17 @@ public:
   virtual const std::string GetTypeName() const { return "CSChatToUser"; }
 };
 
+class SCChatToUser : public SerializeBase
+{
+public:
+  unsigned int user_id;
+  std::string chat_message;
+
+  virtual void Serialize(ByteArray &collector) const;
+  virtual void Unserialize(ByteArray &collector);
+  virtual const std::string GetTypeName() const { return "SCChatToUser"; }
+};
+
 class __CSRegisterAccountDescribe__ : public SerializeDescribe
 {
 public:
@@ -230,6 +241,16 @@ public:
 
 protected:
   virtual SerializeBase * CreateSerialize() const { return new CSChatToUser(); }
+};
+
+class __SCChatToUserDescribe__ : public SerializeDescribe
+{
+public:
+  __SCChatToUserDescribe__() { GetNameToObjectMap()["SCChatToUser"] = this; }
+  virtual ~__SCChatToUserDescribe__() {}
+
+protected:
+  virtual SerializeBase * CreateSerialize() const { return new SCChatToUser(); }
 };
 
 
