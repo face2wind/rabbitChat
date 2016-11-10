@@ -168,13 +168,15 @@ void CSChatToUser::Unserialize(ByteArray &collector)
 
 void SCChatToUser::Serialize(ByteArray &collector) const
 {
-  collector.WriteUint32(user_id);
+  collector.WriteUint32(sender_user_id);
+  collector.WriteUint32(receiver_user_id);
   collector.WriteString(chat_message);
 }
 
 void SCChatToUser::Unserialize(ByteArray &collector)
 {
-  user_id = collector.ReadUint32();
+  sender_user_id = collector.ReadUint32();
+  receiver_user_id = collector.ReadUint32();
   chat_message = collector.ReadString();
 }
 

@@ -125,7 +125,8 @@ public:
 class SCChatToUser : public SerializeBase
 {
 public:
-  unsigned int user_id;
+  unsigned int sender_user_id;
+  unsigned int receiver_user_id;
   std::string chat_message;
 
   virtual void Serialize(ByteArray &collector) const;
