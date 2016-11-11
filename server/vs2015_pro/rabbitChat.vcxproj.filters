@@ -1,0 +1,57 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="src">
+      <UniqueIdentifier>{6cdcc940-c942-4e88-9de9-dc8577900811}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\network">
+      <UniqueIdentifier>{08681df5-bc11-45dd-9615-1067325c8b39}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\player">
+      <UniqueIdentifier>{ba711ab4-591e-4b29-947c-19b08a2f32c2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\common">
+      <UniqueIdentifier>{5f368883-f505-4f1f-926d-c73ba74f8eff}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\src\main.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\player\player.cpp">
+      <Filter>src\player</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\player\player_manager.cpp">
+      <Filter>src\player</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\network\message_handler.cpp">
+      <Filter>src\network</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\network\network_agent.cpp">
+      <Filter>src\network</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\common\protocol_def.cpp">
+      <Filter>src\common</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\src\player\player.hpp">
+      <Filter>src\player</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\player\player_manager.hpp">
+      <Filter>src\player</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\network\message_handler.hpp">
+      <Filter>src\network</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\network\network_agent.hpp">
+      <Filter>src\network</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\common\message_code.hpp">
+      <Filter>src\common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\common\protocol_def.hpp">
+      <Filter>src\common</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>

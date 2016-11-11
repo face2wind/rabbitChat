@@ -72,7 +72,7 @@ void PlayerManager::OnRegisterPlayer(face2wind::NetworkID net_id, std::string na
   }
   else
   {
-    unsigned int new_player_id = player_list_.size();
+    unsigned int new_player_id = (unsigned int)player_list_.size();
     Player *player = new Player();
     player->SetID(new_player_id);
     player->SetName(name);

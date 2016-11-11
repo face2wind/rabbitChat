@@ -91,7 +91,6 @@ void ChatWindow::RefreshMessage()
 
     QTextBlockFormat format = cursor.blockFormat();
     format.setLineHeight(10, QTextBlockFormat::LineDistanceHeight);
-    format.
     cursor.setBlockFormat(format);
 
     cursor.movePosition(QTextCursor::End);
