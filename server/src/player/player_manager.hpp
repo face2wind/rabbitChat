@@ -24,6 +24,7 @@ class PlayerManager
   void OnPlayerLogin(face2wind::NetworkID net_id, std::string name, std::string passwd);
   void OnRequestFriendList(face2wind::NetworkID net_id);
   void OnRequestAllUserList(face2wind::NetworkID net_id);
+  void OnChatToUser(face2wind::NetworkID net_id, int user_id, const std::string &message);
   
  protected:
   PlayerManager();

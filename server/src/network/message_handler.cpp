@@ -21,6 +21,9 @@ MessageHandler::~MessageHandler()
 
 void MessageHandler::OnRecv(face2wind::NetworkID net_id, const face2wind::SerializeBase *data)
 {
+  if (nullptr == data)
+    return;
+  
   const std::string msg_type = data->GetTypeName();
   auto func_it_ = handler_func_map_.find(msg_type);
   if (func_it_ != handler_func_map_.end())
@@ -60,6 +63,8 @@ void MessageHandler::OnRequestMakeFriend(face2wind::NetworkID net_id, const face
 
 void MessageHandler::OnChatToUser(face2wind::NetworkID net_id, const face2wind::SerializeBase *data)
 {
-
+  CSChatToUser *chat_msg = (CSChatToUser*)data;
+  PlayerManager::GetInstance().OnChatToUser(net_id, chat_msg->user_id, chat_msg->chat_message);
 }
   
+

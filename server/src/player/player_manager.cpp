@@ -145,3 +145,17 @@ void PlayerManager::OnRequestAllUserList(face2wind::NetworkID net_id)
   NetworkAgent::GetInstance().SendSerialize(net_id, msg);
 }
 
+void PlayerManager::OnChatToUser(face2wind::NetworkID net_id, int user_id, const std::string &message)
+{
+  Player *user = this->GetPlayer(net_id);
+  Player *target_user = this->GetPlayerWithPlayerID(user_id);
+  if (nullptr == user || nullptr == target_user)
+    return;
+
+  static SCChatToUser msg;
+  msg.sender_user_id = user->GetID();
+  msg.receiver_user_id = target_user->GetID();
+  msg.chat_message = message;
+  NetworkAgent::GetInstance().SendSerialize(net_id, msg);
+  NetworkAgent::GetInstance().SendSerialize(target_user->GetNetID(), msg);
+}
