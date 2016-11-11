@@ -48,6 +48,8 @@ void UIManager::ShowLogin()
         register_win_->hide();
     if (nullptr != main_win_)
         main_win_->hide();
+    for (auto chat_win_it : chat_window_map_)
+        chat_win_it.second->hide();
 }
 
 void UIManager::ShowRegister()
@@ -60,6 +62,8 @@ void UIManager::ShowRegister()
         register_win_ = new RegisterWindow();
     this->MoveCenter(register_win_);
     register_win_->show();
+    for (auto chat_win_it : chat_window_map_)
+        chat_win_it.second->hide();
 }
 
 void UIManager::ShowMainView()
@@ -131,6 +135,35 @@ void  UIManager::RequestFriendList()
 {
     static Protocol::CSRequestAllUserList req;
     NetworkAgent::GetInstance().SendToServer(req);
+}
+
+void UIManager::OnUserListChange()
+{
+    main_win_->FreshAllUserList();
+}
+
+void UIManager::OnReceiveChat(unsigned int sender_id, unsigned int receiver_id, const std::string &message)
+{
+    auto chat_window_it = chat_window_map_.find(sender_id);
+    if (chat_window_it != chat_window_map_.end())
+    {
+        chat_window_it->second->AddMessage(sender_id, receiver_id, message);
+    }
+    else
+    {
+        auto chat_window_it = chat_window_map_.find(receiver_id);
+        if (chat_window_it != chat_window_map_.end())
+        {
+            chat_window_it->second->AddMessage(sender_id, receiver_id, message);
+        }
+        else
+        {
+            ChatWindow *window = new ChatWindow();
+            window->SetUserID(sender_id);
+            window->AddMessage(sender_id, receiver_id, message);
+            chat_window_map_[sender_id] = window;
+        }
+    }
 }
 
 void UIManager::MoveCenter(QMainWindow *window)

@@ -11,6 +11,7 @@ MessageHandler::MessageHandler()
     handler_func_map_["SCLoginResult"] = &MessageHandler::OnLoginResult;
     handler_func_map_["SCFriendList"] = &MessageHandler::OnFriendListReturn;
     handler_func_map_["SCAllUserList"] = &MessageHandler::OnAllUserListReturn;
+    handler_func_map_["SCChatToUser"] = &MessageHandler::OnReceiveChatMsg;
 }
 
 MessageHandler::~MessageHandler()
@@ -43,5 +44,10 @@ void MessageHandler::OnAllUserListReturn(const face2wind::SerializeBase *data)
 {
     SCAllUserList *msg = (SCAllUserList*)data;
     ChatManager::GetInstance().UpdateAllUserList(msg->user_list);
-    UIManager::GetInstance().ShowMainView();
+}
+
+void MessageHandler::OnReceiveChatMsg(const face2wind::SerializeBase *data)
+{
+    SCChatToUser *msg = (SCChatToUser*)data;
+    ChatManager::GetInstance().OnReceiveChatMsg(msg->sender_user_id, msg->receiver_user_id, msg->chat_message);
 }

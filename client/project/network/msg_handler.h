@@ -7,15 +7,6 @@
 class MessageHandler;
 typedef void (MessageHandler::*MessageHandlerFunc)(const face2wind::SerializeBase *data);
 
-struct HandlerItem
-{
-    HandlerItem() : func(0), data_size(0) {}
-    HandlerItem(MessageHandlerFunc f, int s) : func(f), data_size(s) {}
-
-    MessageHandlerFunc func;
-    int data_size;
-};
-
 class MessageHandler
 {
 public:
@@ -28,6 +19,7 @@ protected:
     void OnLoginResult(const face2wind::SerializeBase *data);
     void OnFriendListReturn(const face2wind::SerializeBase *data);
     void OnAllUserListReturn(const face2wind::SerializeBase *data);
+    void OnReceiveChatMsg(const face2wind::SerializeBase *data);
 
 private:
     std::map<std::string, MessageHandlerFunc> handler_func_map_;

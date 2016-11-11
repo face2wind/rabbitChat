@@ -22,6 +22,9 @@ public:
     void ShowChatWindow(unsigned int user_id);
     void RequestFriendList();
 
+    void OnUserListChange();
+    void OnReceiveChat(unsigned int sender_id, unsigned int receiver_id, const std::string &message);
+
 protected:
     void MoveCenter(QMainWindow *window);
     void MoveLeft(QMainWindow *window);
