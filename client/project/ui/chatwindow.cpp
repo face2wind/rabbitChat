@@ -76,13 +76,13 @@ void ChatWindow::RefreshMessage()
     {
         if (item.sender_id == target_user_id_)
         {
-            total_str += ("<b><font color='#ff00ff'>对方：</font></b><br>");
-            total_str += ("&nbsp;&nbsp;<font color='#ff70ff'>"+QString(item.message.c_str()) + "</font><br/>");
+            total_str += ("<b><font color='#ff0000'>对方：</font></b><br>");
+            total_str += ("&nbsp;<font color='#ff00ff'>"+QString(item.message.c_str()) + "</font><br/>");
         }
         else
         {
-            total_str += ("<b><font color='#008040'>我：</font></b><br>");
-            total_str += ("&nbsp;&nbsp;<font color='#404244'>"+QString(item.message.c_str()) + "</font><br/>");
+            total_str += ("<b><font color='#404244'>我：</font></b><br>");
+            total_str += ("&nbsp;<font color='#6f00f0'>"+QString(item.message.c_str()) + "</font><br/>");
         }
     }
     ui->history_text->setHtml(total_str);
@@ -90,7 +90,7 @@ void ChatWindow::RefreshMessage()
     QTextCursor cursor = ui->history_text->textCursor();
 
     QTextBlockFormat format = cursor.blockFormat();
-    format.setLineHeight(10, QTextBlockFormat::LineDistanceHeight);
+    format.setLineHeight(4, QTextBlockFormat::LineDistanceHeight);
     cursor.setBlockFormat(format);
 
     cursor.movePosition(QTextCursor::End);
